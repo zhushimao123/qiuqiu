@@ -33,7 +33,7 @@ Route::get('paystatus', 'order\OrderController@paystatus');
 Route::get('weixin', 'weixin\PayController@weixin');
 
 //微信支付成功回调
-Route::post('notify', 'weixin\PayController@notify');   
+Route::post('wxnotify', 'weixin\PayController@wxnotify');   
 
 Route::get('success', 'weixin\PayController@success');      //微信支付成功
 

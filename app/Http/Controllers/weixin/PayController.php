@@ -27,7 +27,7 @@ class PayController extends Controller
     //全局变量
     public $values = [];
     public  $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder'; //统一下单接口
-    public  $notify_url = 'http://1809zhushimao.comcto.com/notify'; //支付成功回调
+    public  $notify_url = 'http://1809zhushimao.comcto.com/wxnotify'; //支付成功回调
     public function weixin()
     {
         $o_id = intval($_GET['o_id']);
@@ -172,11 +172,12 @@ class PayController extends Controller
             die("curl出错，错误码:$error");
         }
     }   
-    public function notify()
+    public function wxnotify()
     {
         $data = file_get_contents('php://input');
         //记录日志
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
+             is_dir('logs') or mkdir('logs', 0777, true);
         file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
         $xml = simplexml_load_string($data);
         // $where = [
