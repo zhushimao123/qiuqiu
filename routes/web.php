@@ -16,3 +16,24 @@ Route::get('/', function () {
 });
 
 Route::get('index','index\IndexController@index');
+Auth::routes();
+//登陆注册
+Route::get('/home', 'HomeController@index')->name('home');
+//添加购物车
+Route::get('addcart/{goods_id?}', 'index\IndexController@addcart');
+//购物车列表
+Route::get('cart', 'cart\CartController@cartlist');
+//订单
+Route::get('order', 'order\OrderController@order');
+//订单页
+Route::get('orderlist', 'order\OrderController@orderlist');
+//订单支付状态
+Route::get('paystatus', 'order\OrderController@paystatus');
+//微信支付
+Route::get('weixin', 'weixin\PayController@weixin');
+
+//微信支付成功回调
+Route::post('notify', 'weixin\PayController@notify');   
+
+Route::get('success', 'weixin\PayController@success');      //微信支付成功
+
