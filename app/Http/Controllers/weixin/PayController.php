@@ -180,23 +180,26 @@ class PayController extends Controller
              is_dir('logs') or mkdir('logs', 0777, true);
         file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
         $xml = simplexml_load_string($data);
+        // var_dump($xml);
+        // echo 1111;
         // $where = [
-        //     'o_id' => 30
+        //     'o_id' => 35
         // ];        
         // $res = DB::table('wx_order')->where($where)->update(['pay_time'=>time()]);
-        if($xml->return_msg=='ok' && $xml->return_code=='SUCCESS'){      //微信支付成功回调
-            //验证签名
-            $sign = true;
-            if($sign){       //签名验证成功
+        // if($xml->return_msg=='ok' && $xml->return_code=='SUCCESS'){      //微信支付成功回调
+        //     //验证签名
+        //     $sign = true;
+        //     if($sign){       //签名验证成功
               //  TODO 逻辑处理  订单状态更新
                 $pay_time = strtotime($xml->time_end);
-                order::where(['order_sn'=>$xml->out_trade_no])->update(['pay_amount'=>$xml->cash_fee,'pay_time'=>$pay_time]);
-            }else{
-                //TODO 验签失败
-                echo '验签失败，IP: '.$_SERVER['REMOTE_ADDR'];
-                // TODO 记录日志
-            }
-        }
+                order::where(['order_no'=>$xml->out_trade_no])->update(['pay_amount'=>$xml->cash_fee,'pay_time'=>$pay_time]);
+                // var_dump($pay_time);
+            // }else{
+            //     //TODO 验签失败
+            //     echo '验签失败，IP: '.$_SERVER['REMOTE_ADDR'];
+            //     // TODO 记录日志
+            // }
+        // }
         $response = '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
         echo $response;
     }
