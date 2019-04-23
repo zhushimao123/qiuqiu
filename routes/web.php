@@ -43,3 +43,5 @@ Route::get('success', 'weixin\PayController@success');      //微信支付成功
 
 //微信JS-SDK //测试
 Route::get('tests', 'weixin\test@tests');
+//上传的照片
+Route::get('getimg', 'weixin\test@getimg');

@@ -28,4 +28,10 @@ class test extends Controller
         ];
         return view('weixin.tests',['info'=>$info]);
     }
+    //上传的图片
+    public function getimg()
+    {
+       $image =  $_GET['img'];
+       var_dump($image);
+    }
 }

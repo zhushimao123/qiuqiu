@@ -57,7 +57,14 @@
                              });
                     
                         }) //each
-                        console.log(img);
+                        // console.log(img);
+                        $.ajax({
+                            url: 'getimg?img='+img,
+                            type:'get',
+                            success:function(s){
+                                console.log(s);
+                            }
+                        })
                     } //
                 });
             })
