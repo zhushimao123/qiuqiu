@@ -41,8 +41,8 @@
                         var img ="";
                         $.each(localIds,function(i,v){//键名 从0 开始 //v 值 路径
                             img += v+ ","; //img 0  1  2  
-                            console.log(i); //0  1
-                            console.log(v);//wxLocalResource://imageid123456789987654321
+                            // console.log(i); //0  1
+                            // console.log(v);//wxLocalResource://imageid123456789987654321
                             var images = "#imgs"+i;
                             $(images).attr('src',v);
                             //上传图片接口
@@ -51,20 +51,23 @@
                                 isShowProgressTips: 1, // 默认为1，显示进度提示
                                 success: function (m) {
                                  var serverId = m.serverId; // 返回图片的服务器端ID
-                                    console.log(m);
-                                    console.log(serverId);
+                                    // console.log(m);
+                                    // console.log(serverId);
+                                    $.ajax({
+
+                                    })
                                 }
                              });
                     
                         }) //each
                         // console.log(img);
-                        $.ajax({
-                            url: 'getimg?img='+img,
-                            type:'get',
-                            success:function(s){
-                                console.log(s);
-                            }
-                        })
+                        // $.ajax({
+                        //     url: 'getimg?img='+img,
+                        //     type:'get',
+                        //     success:function(s){
+                        //         console.log(s);
+                        //     }
+                        // })
                     } //
                 });
             })
