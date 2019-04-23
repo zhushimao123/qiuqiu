@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 use App\model\goods;
+use App\model\goodsdetail;
 use App\model\cart;
+use Illuminate\Support\Facades\Redis;
 class IndexController extends Controller
 {
     public function index()
@@ -74,5 +76,59 @@ class IndexController extends Controller
                     exit('添加购物车失败');
                 }
         }
+    }
+    //商品详情
+    public function goodsdetail()
+    {
+        $goods_id = intval($_GET['g_id']);
+        $key = $goods_id;
+        $redis_view_keys = 'ss:goods:view'; //浏览排名
+        $history = Redis::incr($key); //商品浏览次数
+        Redis::zAdd($redis_view_keys,$history,$goods_id); //添加元素 good_id  次数
+        // echo $history;die;
+        //数据库做浏览次数
+        $res = goods::where(['g_id'=>$goods_id])->first();
+        $arr = goodsdetail::where(['goods_id'=>$goods_id])->first();
+        // var_dump($arr);die;
+        if($arr){
+            goodsdetail::where(['goods_id'=>$goods_id])->update(['goods_look'=>$arr['goods_look']+1,'look_time'=>time()]);
+        }else{
+            $detail = [
+                'goods_id'=> $goods_id,
+                'goods_name'=> $res ->goods_name,
+                'goods_look'=> $arr['goods_look'] +1,
+                'uid'=>Auth::id(),
+                'look_time'=> time()
+            ];
+            goodsdetail::insertGetId($detail);
+        }
+       //缓存商品信息 哈希
+       $redis_keys =  'goodsinfo'.$goods_id;
+       $cache_info = Redis::hGetAll($redis_keys);
+       if($cache_info){
+            var_dump($cache_info);
+       }else{
+             $goods_info =  goods::where(['g_id'=>$goods_id])->first()->toArray();
+             Redis::hMset($redis_keys,$goods_info);
+       }
+       //浏览次数排序  有序集合
+       $list1 = Redis::zRangeByScore($redis_view_keys,0,10000,['withscores'=>true]); //正序
+    //    echo "<pre>";  print_r($list1); echo "<pre>";
+       $list2 = Redis::zRevRange($redis_view_keys,0,10000,true); //倒叙
+    //    echo "<pre>";  print_r($list2); echo "<pre>";
+        
+       $result =  goodsdetail::where(['goods_id'=>$goods_id,'uid'=>Auth::id()])->first();
+       //浏览次数排序
+    //    var_dump($result);die;
+       $res = [];
+           foreach($list2 as $k=>$v)
+           {
+               $res[] = goodsdetail::where(['goods_id'=>$k])->first();
+           }
+        //    var_dump($ress);die;
+        //浏览历史
+        $detailinfo = goodsdetail::orderby('look_time','desc')->get();
+        // var_dump($detailinfo);die;
+       return view('goods.lishi',['result'=>$result,'res'=>$res,'detailinfo'=>$detailinfo]);
     }
 }

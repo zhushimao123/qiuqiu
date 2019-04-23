@@ -8,7 +8,7 @@
     </tr>
     @foreach($res as $k=>$v)
     <tr>
-        <td>{{$v-> g_id}}</td>
+        <td><a href='goodsdetail?g_id={{$v-> g_id}}'>{{$v-> g_id}}</td>
         <td>{{$v-> goods_name}}</td>
         <td>{{$v-> goods_price}}</td>
         <td>{{$v-> goods_num}}</td>

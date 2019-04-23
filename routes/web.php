@@ -17,6 +17,10 @@ Route::get('/', function () {
 
 Route::get('index','index\IndexController@index');
 Auth::routes();
+//商品详情
+Route::get('goodsdetail','index\IndexController@goodsdetail');
+//浏览历史
+Route::get('lishi','index\IndexController@lishi');
 //登陆注册
 Route::get('/home', 'HomeController@index')->name('home');
 //添加购物车
