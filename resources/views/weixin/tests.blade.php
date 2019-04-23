@@ -40,7 +40,9 @@
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         var img ="";
                         $.each(localIds,function(i,v){//键名 从0 开始 //v 值 路径
-                            img += v+ ",";
+                            img += v+ ","; //img 0  1  2  
+                            console.log(i);
+                            console.log(v);
                             var images = "#imgs"+i;
                             $(images).attr('src',v);
                             //上传图片接口
