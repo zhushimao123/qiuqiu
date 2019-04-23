@@ -9,7 +9,8 @@
 <body>
    <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js "></script>
    <script src="/js/jquery-3.2.1.min.js"></script>
-   <button id="btn">选择照片</button>
+   <!-- <button id="btn"></button> -->
+   <input type="button" id="btn">选择照片
    <img src=""   id="imgs0" width="200">
     <hr>
     <img src=""  id="imgs1"  width="200">
