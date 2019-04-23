@@ -39,7 +39,7 @@
                     success: function (res) {
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         var img ="";
-                        $.each(localIds,function(i,v)){ //键名 从0 开始
+                        $.each(localIds,function(i,v){//键名 从0 开始
                             img += v+ ",";
                             var images = "#imgs"+i;
                             $(images).attr('src',v);
@@ -52,8 +52,9 @@
                                     console.log(res);
                                 }
                              });
-                        }
-                    }
+                    
+                        }) //each
+                    } //
                 });
             })
          });
