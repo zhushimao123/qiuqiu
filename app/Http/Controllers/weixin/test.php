@@ -31,7 +31,9 @@ class test extends Controller
     //上传的图片
     public function getimg()
     {
-        $text = file_get_contents('php://input');
-        var_dump($text);
+        $MediaId = file_get_contents('php://input');
+        // var_dump($text);
+        $url =  'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.token().'&media_id='.$MediaId;
+        var_dump($url);
     }
 }

@@ -59,8 +59,8 @@
                                         type: 'post',
                                         data: {serverId:serverId},
                                         success:function(s){
-                                            // console.log(s);
-                                          console.log(1111);
+                                            console.log(s);
+                                        //   console.log(1111);
                                         }
                                     })
                                 }
