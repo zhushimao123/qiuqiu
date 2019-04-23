@@ -55,7 +55,12 @@
                                     // console.log(m);
                                     // console.log(serverId);
                                     $.ajax({
-
+                                        url : "getimg",
+                                        type: 'post',
+                                        data: {serverId:serverId},
+                                        success:function(s){
+                                            console.log(s);
+                                        }
                                     })
                                 }
                              });
