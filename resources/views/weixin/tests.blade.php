@@ -60,7 +60,7 @@
                                         data: {serverId:serverId},
                                         success:function(s){
                                             // console.log(s);
-                                            echo 111;
+                                          console.log(1111);
                                         }
                                     })
                                 }
