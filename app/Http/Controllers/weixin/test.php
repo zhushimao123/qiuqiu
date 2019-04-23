@@ -5,6 +5,7 @@ namespace App\Http\Controllers\weixin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
+use GuzzleHttp\Client;
 class test extends Controller
 {
     public function tests()
@@ -34,6 +35,17 @@ class test extends Controller
         $MediaId = file_get_contents('php://input');
         // var_dump($text);
         $url =  'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.token().'&media_id='.$MediaId;
-        var_dump($url);
+        // var_dump($url);
+        $client =  new Client();
+        $response = $client->get($url);
+        // $response=$clinet->request('GET',$url);
+        //   var_dump($response);
+        //获取文件名
+        $file_info = $response->getHeader('Content-disposition'); //数组
+        // var_dump($file_info);die;
+       $file_name = substr(trim($file_info[0],'"'),-20);
+       $new_file_name = rand(1111,9999).'_'.time().$file_name;
+        // echo $new_file_name;
+       $re= Storage::put('weixin/images/'.$new_file_name,$response->getBody());
     }
 }

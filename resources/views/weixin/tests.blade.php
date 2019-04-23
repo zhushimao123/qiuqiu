@@ -52,17 +52,18 @@
                                 isShowProgressTips: 1, // 默认为1，显示进度提示
                                 success: function (m) {
                                  var serverId = m.serverId; // 返回图片的服务器端ID
+                                    serverId += serverId+ ",";
                                     // console.log(m);
-                                    // console.log(serverId);
-                                    $.ajax({
-                                        url : "getimg",
-                                        type: 'post',
-                                        data: {serverId:serverId},
-                                        success:function(s){
-                                            console.log(s);
-                                        //   console.log(1111);
-                                        }
-                                    })
+                                    console.log(serverId);
+                                    // $.ajax({
+                                    //     url : "getimg",
+                                    //     type: 'post',
+                                    //     data: {serverId:serverId},
+                                    //     success:function(s){
+                                    //         console.log(s);
+                                    //     //   console.log(1111);
+                                    //     }
+                                    // })
                                 }
                              });
                     
