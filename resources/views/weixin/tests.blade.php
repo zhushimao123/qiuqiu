@@ -10,11 +10,11 @@
    <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js "></script>
    <script src="/js/jquery-3.2.1.min.js"></script>
    <button id="btn">选择照片</button>
-   <img src="" alt="" id="imgs0" width="300">
+   <img src=""   id="imgs0" width="200">
     <hr>
-    <img src="" alt="" id="imgs1"  width="300">
+    <img src=""  id="imgs1"  width="200">
     <hr>
-    <img src="" alt="" id="imgs2"  width="300">
+    <img src=""  id="imgs2"  width="200">
    <script>
         wx.config({
             debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -22,7 +22,7 @@
             timestamp: '{{$info['timestamp']}}', // 必填，生成签名的时间戳
             nonceStr: '{{$info['noncestr']}}', // 必填，生成签名的随机串
             signature: '{{$info['signature']}}',// 必填，签名
-            jsApiList: ['chooseImage'] // 必填，需要使用的JS接口列表
+            jsApiList: ['chooseImage','uploadImage'] // 必填，需要使用的JS接口列表
         });
         wx.ready(function(){
             /*
@@ -39,7 +39,7 @@
                     success: function (res) {
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         var img ="";
-                        $.each(localIds,function(i,v){//键名 从0 开始
+                        $.each(localIds,function(i,v){//键名 从0 开始 //v 值 路径
                             img += v+ ",";
                             var images = "#imgs"+i;
                             $(images).attr('src',v);
@@ -50,6 +50,7 @@
                                 success: function (m) {
                                  var serverId = m.serverId; // 返回图片的服务器端ID
                                     console.log(m);
+                                    console.log(serverId);
                                 }
                              });
                     
