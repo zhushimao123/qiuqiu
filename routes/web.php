@@ -41,3 +41,5 @@ Route::post('wxnotify', 'weixin\PayController@wxnotify');
 
 Route::get('success', 'weixin\PayController@success');      //微信支付成功
 
+//微信JS-SDK //测试
+Route::get('tests', 'weixin\test@tests');
