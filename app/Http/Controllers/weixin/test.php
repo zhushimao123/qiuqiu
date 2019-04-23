@@ -31,7 +31,6 @@ class test extends Controller
     //上传的图片
     public function getimg()
     {
-       $image =  $_GET['img'];
-       var_dump($image);
+        echo '<pre>';print_r($_GET);echo '</pre>';
     }
 }
