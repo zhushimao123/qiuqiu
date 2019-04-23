@@ -13,8 +13,8 @@
    <img src=""   id="imgs0" width="200">
     <hr>
     <img src=""  id="imgs1"  width="200">
-    <hr>
-    <img src=""  id="imgs2"  width="200">
+    <!-- <hr>
+    <img src=""  id="imgs2"  width="200"> -->
    <script>
         wx.config({
             debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -41,8 +41,8 @@
                         var img ="";
                         $.each(localIds,function(i,v){//键名 从0 开始 //v 值 路径
                             img += v+ ","; //img 0  1  2  
-                            console.log(i);
-                            console.log(v);
+                            console.log(i); //0  1
+                            console.log(v);//wxLocalResource://imageid123456789987654321
                             var images = "#imgs"+i;
                             $(images).attr('src',v);
                             //上传图片接口
