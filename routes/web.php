@@ -50,4 +50,4 @@ Route::get('brandlist', 'goods\GoodsController@brandlist');
 //第一从get请求
 Route::get('index', 'goods\GoodsController@index');
 //接受微信服务器的推送
-Route::post('wxEven', 'goods\GoodsController@wxEven');
+Route::any('wxEven', 'goods\GoodsController@wxEven');
