@@ -101,6 +101,7 @@ class GoodsController extends Controller
     }
     public function code()
     {
+      
         // echo '<pre>';print_r($_GET);echo '</pre>';
         //2 通过code换取网页授权access_token
         $code = $_GET['code'];
@@ -122,22 +123,23 @@ class GoodsController extends Controller
         $url2= 'https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
         $user_info = json_decode(file_get_contents($url2),true);
         // echo '<pre>';print_r($user_info);echo '</pre>';
-        //入库
-        $info = [
-            'openid'=> $user_info['openid'],
-            'nickname'=> $user_info['nickname'],
-            'sex'=> $user_info['sex'],
-            'city'=> $user_info['city'],
-            'province'=> $user_info['province'],
-            'country'=> $user_info['country'],
-            'headimgurl' => $user_info['headimgurl'],
-        ];
-        // var_dump($info);
-        $res = DB::table('wx_user')->insert($info);
-        if($res){
-            echo 1;
+        $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first()->toArray();
+        if($user_info['openid'] == $reult['openid']){
+            echo  '欢迎'.$reult['nickname'].'回来';
         }else{
-            echo 2;
+            echo  '欢迎'.$user_info['nickname'].'登陆';
+             //入库
+            $info = [
+                'openid'=> $user_info['openid'],
+                'nickname'=> $user_info['nickname'],
+                'sex'=> $user_info['sex'],
+                'city'=> $user_info['city'],
+                'province'=> $user_info['province'],
+                'country'=> $user_info['country'],
+                'headimgurl' => $user_info['headimgurl'],
+            ];
+            // var_dump($info);
+            $res = DB::table('wx_user')->insert($info);
         }
     }
 }
