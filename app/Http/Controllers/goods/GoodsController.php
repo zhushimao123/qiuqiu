@@ -101,7 +101,7 @@ class GoodsController extends Controller
     }
     public function code()
     {
-        echo '<pre>';print_r($_GET);echo '</pre>';
+        // echo '<pre>';print_r($_GET);echo '</pre>';
         //2 通过code换取网页授权access_token
         $code = $_GET['code'];
         /**
@@ -112,7 +112,15 @@ class GoodsController extends Controller
          */
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx48451c201710dbcd&secret=f583f90f3aed8ec33ae6dd30eceebe5f&code='.$code.'&grant_type=authorization_code';
         $json_data = json_decode(file_get_contents($url),true);
-        echo '<pre>';print_r($json_data);echo '</pre>';
-
+        // echo '<pre>';print_r($json_data);echo '</pre>';
+        $access_token = $json_data['access_token'];
+        $openid = $json_data['openid'];
+        /**
+         *    4 拉取用户信息
+         *https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+         */
+        $url2= 'https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
+        $user_info = json_decode(file_get_contents($url2),true);
+        echo '<pre>';print_r($user_info);echo '</pre>';
     }
 }
