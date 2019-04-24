@@ -132,6 +132,12 @@ class GoodsController extends Controller
             'country'=> $user_info['country'],
             'headimgurl' => $user_info['headimgurl'],
         ];
-        var_dump($info);
+        // var_dump($info);
+        $res = DB::table('wx_user')->insert($info);
+        if($res){
+            echo 1;
+        }else{
+            echo 2;
+        }
     }
 }
