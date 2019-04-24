@@ -78,7 +78,7 @@ class GoodsController extends Controller
     }
     public function goodsinfo()
     {
-        $res = DB::table('weixin_goods')->where(['goods_new'=>1])->orderby('create_time','desc')->limit(5)->get();
+        $res = DB::table('weixin_goods')->where(['goods_new'=>1])->orderby('create_time','desc')->limit(1)->get();
          return view('goods.brandlist',['res'=>$res]);
     }
 }
