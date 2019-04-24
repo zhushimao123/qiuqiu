@@ -44,4 +44,10 @@ Route::get('success', 'weixin\PayController@success');      //微信支付成功
 //微信JS-SDK //测试
 Route::get('tests', 'weixin\test@tests');
 //上传的照片
-Route::post('getimg', 'weixin\test@getimg');
+Route::post('getimg', 'weixin\test@getimg'); 
+//商品消息
+Route::get('brandlist', 'goods\GoodsController@brandlist');  
+//第一从get请求
+Route::get('index', 'goods\GoodsController@index');
+//接受微信服务器的推送
+Route::post('wxEven', 'goods\GoodsController@wxEven');
