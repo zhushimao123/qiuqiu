@@ -115,7 +115,7 @@ class GoodsController extends Controller
         $json_data = json_decode(file_get_contents($url),true);
         // echo '<pre>';print_r($json_data);echo '</pre>';
         $access_token = $json_data['access_token'];
-        // var_dump($access_token);die;
+        var_dump($access_token);die;
         $openid = $json_data['openid'];
         /**
          *    4 拉取用户信息
