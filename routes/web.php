@@ -53,3 +53,5 @@ Route::get('index', 'goods\GoodsController@index');
 Route::any('index', 'goods\GoodsController@wxEven');
 //商品详情
 Route::get('goodsinfo', 'goods\GoodsController@goodsinfo');
+//删除过期的订单
+Route::get('orderdel', 'order\OrderController@orderdel');

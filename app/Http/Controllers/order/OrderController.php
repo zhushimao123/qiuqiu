@@ -71,4 +71,16 @@ class OrderController extends Controller
       die(json_encode($response));
       // echo $o_id;
     }
+    //删除过期的订单
+    public function orderdel()
+    {
+        // echo time();die;
+        $orderinfo = order::get()->toArray();
+        // var_dump($orderinfo);
+        foreach($orderinfo as $k=> $v){
+            if(time()-$v['create_time'] > 1800 && $v['pay_time'] == 0){
+                $update = order::where(['o_id'=> $v['o_id']])->update(['is_del'=>1]);
+            }
+        }
+    }
 }
