@@ -115,7 +115,7 @@ class GoodsController extends Controller
         $json_data = json_decode(file_get_contents($url),true);
         // echo '<pre>';print_r($json_data);echo '</pre>';
         $access_token = $json_data['access_token'];
-        var_dump($access_token);die;
+        // var_dump($access_token);die;
         $openid = $json_data['openid'];
         /**
          *    4 拉取用户信息
@@ -125,9 +125,10 @@ class GoodsController extends Controller
         $user_info = json_decode(file_get_contents($url2),true);
         // echo '<pre>';print_r($user_info);echo '</pre>';die;
         $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first();
-        // var_dump($reult);die;
-        if($user_info['openid'] == $reult->openid){
-            echo  '欢迎'.$reult->nickname.'回来';
+        if($reult){
+            if($user_info['openid'] == $reult->openid){
+                echo  '欢迎'.$reult->nickname.'回来';
+            }
         }else{
             echo  '欢迎'.$user_info['nickname'].'登陆';
              //入库
