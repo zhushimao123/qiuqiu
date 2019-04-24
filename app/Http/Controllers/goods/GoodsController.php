@@ -63,7 +63,7 @@ class GoodsController extends Controller
             <FromUserName><![CDATA['.$wx_id.']]></FromUserName>
             <CreateTime>'.time().'</CreateTime>
             <MsgType><![CDATA[news]]></MsgType>
-            <ArticleCount>5</ArticleCount>
+            <ArticleCount>1</ArticleCount>
             <Articles>
               <item>
                 <Title><![CDATA['.$title.']]></Title>
