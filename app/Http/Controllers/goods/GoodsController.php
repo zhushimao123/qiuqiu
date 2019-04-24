@@ -125,9 +125,9 @@ class GoodsController extends Controller
         $user_info = json_decode(file_get_contents($url2),true);
         // echo '<pre>';print_r($user_info);echo '</pre>';die;
         $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first();
-        var_dump($reult);die;
-        if($user_info['openid'] == $reult['openid']){
-            echo  '欢迎'.$reult['nickname'].'回来';
+        // var_dump($reult);die;
+        if($user_info['openid'] == $reult->openid){
+            echo  '欢迎'.$reult->nickname.'回来';
         }else{
             echo  '欢迎'.$user_info['nickname'].'登陆';
              //入库
