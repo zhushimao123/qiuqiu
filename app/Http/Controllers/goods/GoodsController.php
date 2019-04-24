@@ -57,7 +57,7 @@ class GoodsController extends Controller
             // $title = '';
             $goods_name = $arr['goods_name'];
             $img = '/uploads/goodsimg/'.$arr['goods_img'];
-            $url = 'www.baidu.com';
+            $url = 'http://1809zhushimao.comcto.com/goodsinfo';
             echo '<xml>
             <ToUserName><![CDATA['.$openid.']]></ToUserName>
             <FromUserName><![CDATA['.$wx_id.']]></FromUserName>
@@ -75,5 +75,10 @@ class GoodsController extends Controller
           </xml>';
         
         }
+    }
+    public function goodsinfo()
+    {
+        $res = DB::table('weixin_goods')->where(['goods_new'=>1])->orderby('create_time','desc')->limit(5)->get();
+         return view('goods.brandlist',['res'=>$res]);
     }
 }
