@@ -99,16 +99,16 @@
             timestamp: '{{$info['timestamp']}}', // 必填，生成签名的时间戳
             nonceStr: '{{$info['noncestr']}}', // 必填，生成签名的随机串
             signature: '{{$info['signature']}}',// 必填，签名
-            jsApiList: ['chooseImage','updateTimelineShareData'] // 必填，需要使用的JS接口列表
+            jsApiList: ['chooseImage','updateAppMessageShareData'] // 必填，需要使用的JS接口列表
     });
-    wx.ready(function () {      //需在用户可能点击分享按钮前就先调用
-    wx.updateTimelineShareData({ 
+wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+    wx.updateAppMessageShareData({ 
         title: '球球', // 分享标题
+        desc: '哈哈', // 分享描述
         link: 'http://1809zhushimao.comcto.com/goodsinfo', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
         imgUrl: 'http://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg', // 分享图标
         success: function () {
-          // 设置成功
-          alert('123');
+          alert(1);
         }
     })
 });
