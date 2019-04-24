@@ -56,7 +56,7 @@ class GoodsController extends Controller
             $title = '最新商品';
             // $title = '';
             $goods_name = $arr['goods_name'];
-            $img = 'https://www.baidu.com/link?url=WCgo5u7s8qEznMgH59W8h1RPB9QqOxU8lqE-EDhvscYhYt5xWQNvL4UvCGm-R4cHw1PrNliQekC2_WGl1G9jMjNDs4pbTTV0kyZgC4Z-_i5-fhJmpsMkn7OGL2IKz0hEoMKIIv2D89DZHw45dCeNcC8XXYThZK-QarO2ojSt3yWY66i3zYxd_D4wcrhHnblKCamHmftoVEKNJJ39EvaQ40Ma0DLs7S2nWeNS0oSnEqOT5wzaIP7bTGEHKP3VdEXusAVRn8_rVpm9rjBrzqnRlSTHuf6f9rsckpnGDCRIc5bbpxrE_WK-N_yhkBo8fMDbSyjbtUe_Nip5HtDYtMP3VlxXQUGASsB9jX_0R1O4HLlNVtLscWAUjGd9s9sUr9g7siz-cY10KwVnApjrxCJgOMUhErnAhkYaKrzzsZV-tHU5A61ZnIMhxgIzaCmulyf_zsTdphxMrGAbAWrNQeslfFOuICQpXn-Bc5uUvucqGz82JL_LT0ViV6mHM6DL1m2LzZgVOLt29uavGCBkJkxHkiMuEp-xx9tFHZNMDv8OAYRUQ1JsWHKUQjafndZVqf0i5leMo3mdphpUVqjPsjMkJZBW02YmJ6fdjYKIlPg13VqfhaBMIcvUrTDsAwZKY20IEYoBBwCf-mk7E6386WtEzpvdUaL8Q41nMYK_neKp115zqI0S8_bPCXYW5ZRuPrp3MCsUQdodI5tNHUUsxz4hM0h_GQVo0AAm_tR3P4_ZZEu&wd=&eqid=90ec81810000bc9b000000035cbfcd92';
+            $img = 'http://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg';
             $url = 'http://1809zhushimao.comcto.com/goodsinfo';
             echo '<xml>
             <ToUserName><![CDATA['.$openid.']]></ToUserName>
