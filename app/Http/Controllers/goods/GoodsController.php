@@ -99,4 +99,8 @@ class GoodsController extends Controller
         ];
         return view('goods.brandlist',['res'=>$res,'info'=>$info]);
     }
+    public function code()
+    {
+        
+    }
 }

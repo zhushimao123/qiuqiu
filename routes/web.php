@@ -54,4 +54,9 @@ Route::any('index', 'goods\GoodsController@wxEven');
 //商品详情
 Route::get('goodsinfo', 'goods\GoodsController@goodsinfo');
 //删除过期的订单
-Route::get('orderdel', 'order\OrderController@orderdel');
+Route::get('orderdel', 'order\OrderController@orderdel');\
+//redirect_uri
+Route::get('urlencode', function () {
+    echo urlencode($_GET['url']);
+});
+Route::get('code', 'goods\GoodsController@code');      //微信网页授权回调
