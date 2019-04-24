@@ -121,6 +121,17 @@ class GoodsController extends Controller
          */
         $url2= 'https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
         $user_info = json_decode(file_get_contents($url2),true);
-        echo '<pre>';print_r($user_info);echo '</pre>';
+        // echo '<pre>';print_r($user_info);echo '</pre>';
+        //入库
+        $info = [
+            'openid'=> $user_info['openid'],
+            'nickname'=> $user_info['nickname'],
+            'sex'=> $user_info['sex'],
+            'city'=> $user_info['city'],
+            'province'=> $user_info['province'],
+            'country'=> $user_info['country'],
+            'headimgurl' => $user_info['headimgurl'],
+        ];
+        var_dump($info);
     }
 }
