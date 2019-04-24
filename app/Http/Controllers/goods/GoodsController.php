@@ -124,7 +124,7 @@ class GoodsController extends Controller
         $url2= 'https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
         $user_info = json_decode(file_get_contents($url2),true);
         // echo '<pre>';print_r($user_info);echo '</pre>';die;
-        $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first()->toArray();
+        $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first();
         var_dump($reult);die;
         if($user_info['openid'] == $reult['openid']){
             echo  '欢迎'.$reult['nickname'].'回来';
