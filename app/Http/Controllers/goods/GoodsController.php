@@ -14,10 +14,13 @@ class GoodsController extends Controller
         $arr = json_decode($res,true);
         //  var_dump($arr);die;
         foreach($arr as $k=>$v){
-            $img = $v['goods_img'];
+            $img = $v;
+            // var_dump($img);
+            return $img;
         }
         // return view('goods.brandlist',['res'=>$res]);
-        return $img;
+      
+     
     }
     //第一次get请求
     public function index()
@@ -35,20 +38,42 @@ class GoodsController extends Controller
         $str = $time . $text . "\n";
         is_dir('logs') or mkdir('logs', 0777, true);
         file_put_contents("logs/wx_event.log", $str, FILE_APPEND);
-    //     $data = simplexml_load_string($text);
-    //     $wx_id = $data-> ToUserName;  //公众号id
-    //     $openid = $data-> FromUserName;//用户的openid
-    //     $Content = $data-> Content; //微信发送的内容
-    //     // echo $Content;
-   
-    //     $CreateTime = $data -> CreateTime; //消息发送的时间
-    //     // echo $CreateTime;
-    // //    echo $data-> CreateTime;echo "<br>";  //推送时间
-    //     $MsgType = $data-> MsgType;   //消息类型  image  voice 
-    //     // echo $MsgType;
-    //     // echo  $content;echo "<br>";
-    //     $type =  $data-> Event;    //事件类型
-    //     $MediaId = $data -> MediaId;
-    //     // echo $MediaId;
+        $data = simplexml_load_string($text);
+        // var_dump($data);
+        $wx_id = $data-> ToUserName;  //公众号id
+        $openid = $data-> FromUserName;//用户的openid
+        $Content = $data-> Content; //微信发送的内容
+        $CreateTime = $data -> CreateTime; //消息发送的时间
+    //    echo $data-> CreateTime;echo "<br>";  //推送时间
+        $MsgType = $data-> MsgType;   //消息类型  image  voice 
+        $type =  $data-> Event;    //事件类型
+        $MediaId = $data -> MediaId;
+        // echo $MediaId;
+        if($Content =="最新商品"){
+            $arr = $this->brandlist();
+            // var_dump($arr[]);die;
+            // var_dump($arr['goods_img']);die;
+            $title = '最新商品';
+            // $title = '';
+            $goods_name = $arr['goods_name'];
+            $img = '/uploads/goodsimg/'.$arr['goods_img'];
+            $url = 'www.baidu.com';
+            echo '<xml>
+            <ToUserName><![CDATA['.$openid.']]></ToUserName>
+            <FromUserName><![CDATA['.$wx_id.']]></FromUserName>
+            <CreateTime>'.time().'</CreateTime>
+            <MsgType><![CDATA[news]]></MsgType>
+            <ArticleCount>5</ArticleCount>
+            <Articles>
+              <item>
+                <Title><![CDATA['.$title.']]></Title>
+                <Description><![CDATA['.$goods_name.']]></Description>
+                <PicUrl><![CDATA['.$img.']]></PicUrl>
+                <Url><![CDATA['.$url.']]></Url>
+              </item>
+            </Articles>
+          </xml>';
+        
+        }
     }
 }
