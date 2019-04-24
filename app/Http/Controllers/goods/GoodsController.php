@@ -79,6 +79,24 @@ class GoodsController extends Controller
     public function goodsinfo()
     {
         $res = DB::table('weixin_goods')->where(['goods_new'=>1])->orderby('create_time','desc')->limit(1)->get();
-         return view('goods.brandlist',['res'=>$res]);
+       
+         $jsticket = jsticket();
+     //计算签名
+        $noncestr=Str::random(10);
+        $jsapi_ticket=$jsticket;
+        $timestamp=time();
+        $url=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        // var_dump($url);die;
+        //排序
+        $string1 = 'jsapi_ticket='.$jsapi_ticket.'&noncestr='.$noncestr.'&timestamp='.$timestamp.'&url='.$url;
+        $string2 = sha1($string1);
+        // echo $string2;die;
+        $info =[
+            'appId' => 'wx48451c201710dbcd',
+            'timestamp'=> $timestamp,
+            'noncestr' => $noncestr,
+            'signature' => $string2
+        ];
+        return view('goods.brandlist',['res'=>$res,'info'=>$info]);
     }
 }
