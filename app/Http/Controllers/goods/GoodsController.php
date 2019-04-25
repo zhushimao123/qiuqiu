@@ -34,6 +34,7 @@ class GoodsController extends Controller
     {
         //接受微信服务器推送
         $text = file_get_contents('php://input');
+        // dd($text);
         $time = date('Y-m-d H:i:s');
         $str = $time . $text . "\n";
         is_dir('logs') or mkdir('logs', 0777, true);
