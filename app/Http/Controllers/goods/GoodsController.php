@@ -75,6 +75,9 @@ class GoodsController extends Controller
           </xml>';
         
         }
+        if($MsgType == 'text'){
+            echo 111;
+        }
     }
     public function goodsinfo()
     {

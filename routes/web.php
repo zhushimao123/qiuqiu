@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('index','index\IndexController@index');
+Route::get('shouye','index\IndexController@index');
 Auth::routes();
 //商品详情
 Route::get('goodsdetail','index\IndexController@goodsdetail');
