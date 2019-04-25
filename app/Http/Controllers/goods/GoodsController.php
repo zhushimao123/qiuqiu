@@ -5,6 +5,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Storage;
 class GoodsController extends Controller
 {
     public function brandlist()
@@ -50,34 +52,60 @@ class GoodsController extends Controller
         $type =  $data-> Event;    //事件类型
         $MediaId = $data -> MediaId;
         // echo $MediaId;
-        if($Content =="最新商品"){
-            $arr = $this->brandlist();
-            // var_dump($arr[]);die;
-            // var_dump($arr['goods_img']);die;
-            $title = '最新商品';
-            // $title = '';
-            $goods_name = $arr['goods_name'];
-            $img = 'http://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg';
-            $url = 'http://1809zhushimao.comcto.com/goodsinfo';
-            echo '<xml>
-            <ToUserName><![CDATA['.$openid.']]></ToUserName>
-            <FromUserName><![CDATA['.$wx_id.']]></FromUserName>
-            <CreateTime>'.time().'</CreateTime>
-            <MsgType><![CDATA[news]]></MsgType>
-            <ArticleCount>1</ArticleCount>
-            <Articles>
-              <item>
-                <Title><![CDATA['.$title.']]></Title>
-                <Description><![CDATA['.$goods_name.']]></Description>
-                <PicUrl><![CDATA['.$img.']]></PicUrl>
-                <Url><![CDATA['.$url.']]></Url>
-              </item>
-            </Articles>
-          </xml>';
-        
-        }
         if($MsgType == 'text'){
-            echo 111;
+                // echo 222;
+            $date = [
+                'openid'=>$openid,
+                'text'=> $Content,
+                'text_time'=>$CreateTime
+
+            ];
+            $save = DB::table('wx_text')->insert($date);
+
+            if($Content =="最新商品"){
+                $arr = $this->brandlist();
+                // var_dump($arr[]);die;
+                // var_dump($arr['goods_img']);die;
+                $title = '最新商品';
+                // $title = '';
+                $goods_name = $arr['goods_name'];
+                $img = 'http://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg';
+                $url = 'http://1809zhushimao.comcto.com/goodsinfo';
+                echo '<xml>
+                <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                <FromUserName><![CDATA['.$wx_id.']]></FromUserName>
+                <CreateTime>'.time().'</CreateTime>
+                <MsgType><![CDATA[news]]></MsgType>
+                <ArticleCount>1</ArticleCount>
+                <Articles>
+                  <item>
+                    <Title><![CDATA['.$title.']]></Title>
+                    <Description><![CDATA['.$goods_name.']]></Description>
+                    <PicUrl><![CDATA['.$img.']]></PicUrl>
+                    <Url><![CDATA['.$url.']]></Url>
+                  </item>
+                </Articles>
+              </xml>';
+            
+            }
+        }else if($MsgType == 'image'){
+            $wx_images_path =  $this->images($MediaId);
+            //图片信息入库
+            $date = [
+               'openid'=>$openid,
+               'images'=> $wx_images_path,
+               'images_time'=>$CreateTime
+            ];
+            $info = DB::table('wx_image')->insert($date);
+            var_dump($info);
+        }else if($MsgType == 'voice'){
+            $wx_volices_path =  $this->voices($MediaId);
+             $date = [
+                'openid'=>$openid,
+                'volice'=> $wx_volices_path,
+                'volice_time'=>$CreateTime
+             ];
+             $info = DB::table('wx_volice')->insert($date);
         }
     }
     public function goodsinfo()
@@ -149,4 +177,47 @@ class GoodsController extends Controller
             $res = DB::table('wx_user')->insert($info);
         }
     }
+    //下载图片
+    public function images($MediaId)
+    {   //调用接口  
+        $url =  'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.token().'&media_id='.$MediaId;
+        //发送请求
+        $client =  new Client();
+        $response = $client->get($url);
+        // $response=$clinet->request('GET',$url);
+        //   var_dump($response);
+        //获取文件名
+        $file_info = $response->getHeader('Content-disposition'); //数组
+        // var_dump($file_info);die;
+       $file_name = substr(trim($file_info[0],'"'),-20);
+       $new_file_name = rand(1111,9999).'_'.time().$file_name;
+        // echo $new_file_name;
+       $re= Storage::put('weixin/images/'.$new_file_name,$response->getBody());
+    
+       $wx_images_path ='weixin/images/'.$new_file_name;
+        return  $wx_images_path;
+    }
+     //下载语音
+     public function voices($MediaId)
+     {
+        
+         $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.token().'&media_id='.$MediaId;
+      
+         $client = new Client();
+        
+         $response =  $client->get($url);
+     
+         $file_info = $response->getHeader('Content-disposition'); //数组
+       
+        $file_name = substr(trim($file_info[0],'"'),-15);
+        
+        $new_file_name = rand(1111,9999).'_'.time().$file_name;
+    
+        $res= Storage::put('weixin/volices/'.$new_file_name,$response->getBody());
+        
+        $wx_volices_path ='weixin/volices/'.$new_file_name;
+        
+        return $wx_volices_path;
+       
+     }
 }
