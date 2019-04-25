@@ -69,8 +69,8 @@ class GoodsController extends Controller
                 $title = '最新商品';
                 // $title = '';
                 $goods_name = $arr['goods_name'];
-                $img = 'http://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg';
-                $url = 'http://1809zhushimao.comcto.com/goodsinfo';
+                $img = 'https://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg';
+                $url = 'https://1809zhushimao.comcto.com/goodsinfo';
                 echo '<xml>
                 <ToUserName><![CDATA['.$openid.']]></ToUserName>
                 <FromUserName><![CDATA['.$wx_id.']]></FromUserName>

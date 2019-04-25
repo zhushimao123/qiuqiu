@@ -16,4 +16,10 @@ Route::group([
     $router->resource('orderinfo', OrderController::class);
     //微信用户管理
     $router->resource('users', UserController::class);
+    //素材 文字
+    $router->resource('info', TextController::class);
+     //素材  图片
+     $router->resource('image', ImageController::class);
+      //素材 语音
+    $router->resource('volice', VoliceController::class);
 });
