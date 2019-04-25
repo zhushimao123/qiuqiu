@@ -39,7 +39,7 @@ class GoodsController extends Controller
         is_dir('logs') or mkdir('logs', 0777, true);
         file_put_contents("logs/wx_event.log", $str, FILE_APPEND);
         $data = simplexml_load_string($text);
-        // var_dump($data);
+        var_dump($data);die;
         $wx_id = $data-> ToUserName;  //公众号id
         $openid = $data-> FromUserName;//用户的openid
         $Content = $data-> Content; //微信发送的内容
