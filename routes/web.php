@@ -49,7 +49,7 @@ Route::post('getimg', 'weixin\test@getimg');
 Route::get('brandlist', 'goods\GoodsController@brandlist');  
 //第一从get请求
 Route::get('index', 'goods\GoodsController@index');
-//接受微信服务器的推送
+//接受微信服务器推送
 Route::post('index', 'goods\GoodsController@wxEven');
 //商品详情
 Route::get('goodsinfo', 'goods\GoodsController@goodsinfo');
