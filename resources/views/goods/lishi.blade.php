@@ -6,8 +6,8 @@
     </tr>
  
     <tr>
-        <td>{{$result-> goods_id}}</td>
-        <td>{{$result-> goods_name}}</td>
+        <td>{{$result['goods_id']}}</td>
+        <td>{{$result['goods_name']}}</td>
     </tr>
    
 </table>

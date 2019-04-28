@@ -118,7 +118,7 @@ class IndexController extends Controller
        $list2 = Redis::zRevRange($redis_view_keys,0,10000,true); //倒叙
     //    echo "<pre>";  print_r($list2); echo "<pre>";
         
-       $result =  goodsdetail::where(['goods_id'=>$goods_id,'uid'=>Auth::id()])->first();
+       $result =  goodsdetail::where(['goods_id'=>$goods_id,'uid'=>Auth::id()])->first()->toArray();
        //浏览次数排序
     //    var_dump($result);die;
        $res = [];
