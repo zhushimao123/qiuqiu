@@ -60,3 +60,6 @@ Route::get('urlencode', function () {
     echo urlencode($_GET['url']);
 });
 Route::get('code', 'goods\GoodsController@code');      //微信网页授权回调
+//生成临时二维码
+Route::post('create', 'goods\GoodsController@create');  
+Route::get('getimg', 'goods\GoodsController@getimg'); 

@@ -51,6 +51,7 @@ class GoodsController extends Controller
         $MsgType = $data-> MsgType;   //消息类型  image  voice 
         $type =  $data-> Event;    //事件类型
         $MediaId = $data -> MediaId;
+        $eventkey = $data -> EventKey;
         // echo $MediaId;
         if($MsgType == 'text'){
                 // echo 222;
@@ -106,6 +107,100 @@ class GoodsController extends Controller
                 'volice_time'=>$CreateTime
              ];
              $info = DB::table('wx_volice')->insert($date);
+        }
+
+        if($type == 'SCAN')
+        {
+            $info = [
+                'openid'=>$openid,
+                'createTime' => $CreateTime,
+                'scene_id' => $eventkey,
+                'type' => $type
+
+            ];
+            $arr = DB::table('wx_scan')->insert($info);
+        }else if($type =='subscribe'){
+            //根据openid来查是否是唯一用户关注
+            $l = DB::table('wx_user')->where(['openid'=>$openid])->first();
+            $x= json_encode($l,true);
+            $arr = json_decode($x,true);
+            // var_dump($arr);die;
+            if($arr){ //关注过
+                //微信可咦通过 xml 格式来返回给微信用户消息
+                $img = $this->brandlist();
+                // var_dump($arr[]);die;
+                // var_dump($arr['goods_img']);die;
+                $title = '欢迎回来';
+                // $title = '';
+                $goods_name = $img['goods_name'];
+                $imgs = 'https://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg';
+                $curl = 'https://1809zhushimao.comcto.com/goodsinfo';
+                echo '<xml>
+                <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                <FromUserName><![CDATA['.$wx_id.']]></FromUserName>
+                <CreateTime>'.time().'</CreateTime>
+                <MsgType><![CDATA[news]]></MsgType>
+                <ArticleCount>1</ArticleCount>
+                <Articles>
+                  <item>
+                    <Title><![CDATA['.$title.']]></Title>
+                    <Description><![CDATA['.$goods_name.']]></Description>
+                    <PicUrl><![CDATA['.$imgs.']]></PicUrl>
+                    <Url><![CDATA['.$curl.']]></Url>
+                  </item>
+                </Articles>
+              </xml>';
+            }else{
+                 //获取用户信息
+                $result = $this -> userinfo($openid);
+                $ll = $result['openid'];
+                //用户信息入库
+                $usersinfo = [
+                    'openid'=>$ll,
+                    'nickname'=> $result['nickname'],
+                    'sex'=> $result['sex'],
+                    'city'=> $result['city'],
+                    'province'=> $result['province'],
+                    'headimgurl'=> $result['headimgurl'],
+                    'subscribe_time'=> $result['subscribe_time']
+                ];
+                $insert = DB::table('wx_user')->insert($usersinfo);
+                // echo 1;die;
+                $img = $this->brandlist();
+                // var_dump($arr[]);die;
+                // var_dump($arr['goods_img']);die;
+                $title = '欢迎关注';
+                // $title = '';
+                $goods_name = $img['goods_name'];
+                $imgs = 'https://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg';
+                $curl = 'https://1809zhushimao.comcto.com/goodsinfo';
+                echo '<xml>
+                <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                <FromUserName><![CDATA['.$wx_id.']]></FromUserName>
+                <CreateTime>'.time().'</CreateTime>
+                <MsgType><![CDATA[news]]></MsgType>
+                <ArticleCount>1</ArticleCount>
+                <Articles>
+                  <item>
+                    <Title><![CDATA['.$title.']]></Title>
+                    <Description><![CDATA['.$goods_name.']]></Description>
+                    <PicUrl><![CDATA['.$imgs.']]></PicUrl>
+                    <Url><![CDATA['.$curl.']]></Url>
+                  </item>
+                </Articles>
+              </xml>';
+            
+            }
+             //修改状态
+             $where = [
+                'openid'=>$openid
+            ];
+            $status = DB::table('wx_user')->where($where)->update(['sub_status'=>1]);
+        }else if($type =='unsubscribe'){
+            $where = [
+                'openid'=>$openid
+            ];
+            $status = DB::table('wx_user')->where($where)->update(['sub_status'=>2]);
         }
     }
     public function goodsinfo()
@@ -219,5 +314,55 @@ class GoodsController extends Controller
         return $wx_volices_path;
        
      }
-    
+     //临时二维码
+     //http请求方式: POST
+    //URL: https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=TOKEN
+    public function create()
+    {
+        $url =  'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token='.token();
+        $json_deta =  [
+            'expire_seconds'=> 604800,
+            'action_name'=> 'QR_SCENE',
+            'action_info'=> [
+                'scene'=> [
+                    'scene_id'=> 666
+                ]
+            ]
+        ];
+        //{"expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": {"scene": {"scene_id": 123}}}
+        $json = json_encode($json_deta,true);
+        // var_dump($json);
+        $client = new Client();
+        $response = $client->request('POST',$url,[
+            'body' => $json
+        ]);
+      
+        //处理响应
+        // echo  $response->getBody();
+        $res = $response->getBody();
+        $reult = json_decode($res,true);
+        // echo "<pre>"; print_r($reult); echo "<pre>";
+        $ticket = $reult['ticket'];
+        // var_dump($ticket);
+        return $ticket;
+    }
+    //二维码
+    public function getimg()
+    {
+        $tk = $this-> create();
+        // echo $ticket;die;
+        $ticket = UrlEncode($tk);
+        $url =  'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$ticket;
+        echo $url;
+        // $data = file_get_contents($url);
+        // var_dump($data);
+    }
+    //获取用户信息
+    public function userinfo($openid)
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.token().'&openid='.$openid.'&lang=zh_CN';
+        $res =  file_get_contents($url);
+        $info = json_decode($res,true);
+        return $info;
+    }
 }
