@@ -22,4 +22,9 @@ Route::group([
      $router->resource('image', ImageController::class);
       //素材 语音
     $router->resource('volice', VoliceController::class);
+    //_____________________________________________________
+    //新增临时素材
+    $router->any('wximg', 'WximgController@index');
+    //消息也
+    $router->any('contents', 'ContentController@index');
 });

@@ -216,8 +216,8 @@ class GoodsController extends Controller
         $res= Storage::put('weixin/volices/'.$new_file_name,$response->getBody());
         
         $wx_volices_path ='weixin/volices/'.$new_file_name;
-        
         return $wx_volices_path;
        
      }
+    
 }
