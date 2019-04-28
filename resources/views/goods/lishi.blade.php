@@ -46,3 +46,9 @@
         </tr>
         @endforeach
 </table>
+<div id='qrcode'></div>
+<script src="/js/jquery-3.2.1.min.js"></script>
+        <script src="/js/qrcodes.js"></script>
+<script type="text/javascript">
+            new QRCode(document.getElementById("qrcode"), "{{$server}}");
+</script>

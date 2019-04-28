@@ -79,7 +79,8 @@ class IndexController extends Controller
     }
     //商品详情
     public function goodsdetail()
-    {
+    {  
+        
         $goods_id = intval($_GET['g_id']);
         $key = $goods_id;
         $redis_view_keys = 'ss:goods:view'; //浏览排名
@@ -129,6 +130,8 @@ class IndexController extends Controller
         //浏览历史
         $detailinfo = goodsdetail::orderby('look_time','desc')->get();
         // var_dump($detailinfo);die;
-       return view('goods.lishi',['result'=>$result,'res'=>$res,'detailinfo'=>$detailinfo]);
+        $server = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+        // dd($server);
+       return view('goods.lishi',['result'=>$result,'res'=>$res,'detailinfo'=>$detailinfo,'server'=>$server]);
     }
 }
