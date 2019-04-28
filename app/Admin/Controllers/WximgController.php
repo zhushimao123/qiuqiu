@@ -68,7 +68,7 @@ class WximgController extends Controller
      
              
         return $content
-        ->header('Index')
+        ->header('Index')  
         ->description('description')
         ->body(view('admin.wximg'));
     }
