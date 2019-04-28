@@ -60,7 +60,7 @@ class WximgController extends Controller
             }
           
            
-            //入库 控制器相当于   index.php    /找strol   ../strol
+            //入库 控制器相当于   index.php    /找strol   ../strol    
      
              
         return $content
