@@ -6,8 +6,8 @@
     </tr>
  
     <tr>
-        <td>{{$result-> goods_id}}</td>
-        <td>{{$result-> goods_name}}</td>
+        <td>球球</td>
+        <td>888</td>
     </tr>
    
 </table>
