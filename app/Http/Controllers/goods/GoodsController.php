@@ -310,12 +310,15 @@ class GoodsController extends Controller
         $user_info = json_decode(file_get_contents($url2),true);
         // echo '<pre>';print_r($user_info);echo '</pre>';die;
         $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first();
+        $key = 'l:wx_san';
+        $v = time();
+        Redis::lpush($key,$v);
+        $redis =  Redis::lrange($key,0,-1); 
+        echo '<pre>';print_r($redis);echo '</pre>';
         if($reult){
             if($user_info['openid'] == $reult->openid){
                 // echo "用户已存在";
                 echo  '欢迎'.$reult->nickname.'回来';
-               $redis =  Redis::lrange($key,0,-1); 
-                echo '<pre>';print_r($redis);echo '</pre>';
                 // header('refresh:3;url=/goodsinfo?g_id=3');
                 // exit('3秒后，自动跳转至商品详情');
             }
@@ -323,11 +326,6 @@ class GoodsController extends Controller
             echo  '欢迎'.$user_info['nickname'].'登陆';
             // header('refresh:3;url=/goodsinfo?g_id=3');
             // exit('3秒后，自动跳转至商品详情');
-            $key = 'l:wx_san';
-            $v = time();
-            Redis::lpush($key,$v);
-            $redis =  Redis::lrange($key,0,-1); 
-            echo '<pre>';print_r($redis);echo '</pre>';
              //入库
             $info = [
                 'openid'=> $user_info['openid'],
