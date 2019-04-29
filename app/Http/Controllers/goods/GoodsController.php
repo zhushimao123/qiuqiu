@@ -324,7 +324,7 @@ class GoodsController extends Controller
             $key = $user_info['openid'];
             $redis_view_keys = 'ss:goods:view'; //浏览排名
             $history = Redis::incr($key); //商品浏览次数
-           $res1 =  Redis::zAdd($redis_view_keys,$history,$goods_id); 
+           $res1 =  Redis::zAdd($redis_view_keys,$history,1); 
            var_dump($res1);
              //入库
             $info = [
