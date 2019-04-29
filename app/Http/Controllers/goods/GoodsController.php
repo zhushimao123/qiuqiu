@@ -310,6 +310,16 @@ class GoodsController extends Controller
         $user_info = json_decode(file_get_contents($url2),true);
         // echo '<pre>';print_r($user_info);echo '</pre>';die;
         $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first();
+
+        $keys = 'qiuqiu'.$user_info['openid'];
+        $user = [
+            'time'=> time(),
+            'openid'=> $user_info['openid']
+         ];
+         Redis::hMset($keys,$user);
+         $users = Redis::hGetAll($keys);
+         var_dump($users);
+        
         if($reult){
             if($user_info['openid'] == $reult->openid){
                 echo "用户已存在";
@@ -320,14 +330,7 @@ class GoodsController extends Controller
             }
         }else{
             echo  '欢迎'.$user_info['nickname'].'登陆';
-            $keys = 'qiuqiu'.$user_info['openid'];
-            $user = [
-                'time'=> time()
-             ];
-             Redis::hMset($keys,$user);
-             $users = Redis::hGetAll($keys);
-             var_dump($users);
-            
+         
            
             // $key = time();
             // Redis::zAdd($redis_view_keys,$history,$goods_id);
