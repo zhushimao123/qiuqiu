@@ -312,7 +312,7 @@ class GoodsController extends Controller
         $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first();
         if($reult){
             if($user_info['openid'] == $reult->openid){
-                echo "用户已存在".'\n';
+                echo "用户已存在";
                 $users = Redis::hGetAll($keys);
                 var_dump($users);
 
@@ -327,7 +327,9 @@ class GoodsController extends Controller
                 'openid'=> $user_info['openid'],
                 'time'=> time()
              ];
-            Redis::hMset($keys,$user);
+            Redis::set($keys,$user);
+            $users = Redis::Get($keys);
+            var_dump($users);
            
             // $key = time();
             // Redis::zAdd($redis_view_keys,$history,$goods_id);
