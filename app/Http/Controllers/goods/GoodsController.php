@@ -71,7 +71,7 @@ class GoodsController extends Controller
                 // $title = '';
                 $goods_name = $res->goods_name;
                 $img = 'https://1809zhushimao.comcto.com/uploads/goodsimg/'.$res->goods_img;
-                $url = 'https://1809zhushimao.comcto.com/goodsinfo??g_id='.$res->goods_id;
+                $url = 'https://1809zhushimao.comcto.com/goodsdetail?g_id='.$res->goods_id;
                 echo '<xml>
                 <ToUserName><![CDATA['.$openid.']]></ToUserName>
                 <FromUserName><![CDATA['.$wx_id.']]></FromUserName>
