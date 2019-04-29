@@ -310,11 +310,7 @@ class GoodsController extends Controller
         $user_info = json_decode(file_get_contents($url2),true);
         // echo '<pre>';print_r($user_info);echo '</pre>';die;
         $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first();
-        $key = 'l:wx_san';
-        $v = time();
-        Redis::lpush($key,$v);
-        $redis =  Redis::lrange($key,0,-1); 
-        echo '<pre>';print_r($redis);echo '</pre>';
+        
         if($reult){
             if($user_info['openid'] == $reult->openid){
                 // echo "用户已存在";
@@ -339,6 +335,11 @@ class GoodsController extends Controller
             // var_dump($info);
             $res = DB::table('wx_user')->insert($info);
         }
+        $key = 'l:wx_san';
+        $v = time();
+        Redis::lpush($key,$v);
+        $redis =  Redis::lrange($key,0,-1); 
+        echo '<pre>';print_r($redis);echo '</pre>';
     }
     //下载图片
     public function images($MediaId)
