@@ -282,6 +282,7 @@ class GoodsController extends Controller
         ];
         return view('goods.brandlist',['res'=>$res,'info'=>$info]);
     }
+    //微信网页授权
     public function code()
     {
       
@@ -430,7 +431,7 @@ class GoodsController extends Controller
                 [
                     'type'=> 'view',
                     'name'=> '最新福利',
-                    'url'=>"http://www.baidu.com"
+                    'url'=>"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48451c201710dbcd&redirect_uri=http%3A%2F%2F1809zhushimao.comcto.com%2Fcode&response_type=code&scope=snsapi_userinfo &state=STATE#wechat_redirect"
                 ],
             ]
         ];
