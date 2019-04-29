@@ -12,14 +12,14 @@ class GoodsController extends Controller
     public function brandlist()
     {
         // echo 11111;die;
-        $res = DB::table('weixin_goods')->where(['goods_new'=>1])->orderby('create_time','desc')->limit(5)->get();
+        $res = DB::table('weixin_goods')->where(['goods_new'=>1])->get();
         $arr = json_decode($res,true);
         //  var_dump($arr);die;
-        foreach($arr as $k=>$v){
-            $img = $v;
-            // var_dump($img);
-            return $img;
-        }
+        // foreach($arr as $k=>$v){
+        //     $img = $v;
+        //     // var_dump($img);
+            return $arr;
+        // }
         // return view('goods.brandlist',['res'=>$res]);
       
      
@@ -54,7 +54,60 @@ class GoodsController extends Controller
         $eventkey = $data -> EventKey;
         // echo $MediaId;
         if($MsgType == 'text'){
-                // echo 222;
+            $arr = $this->brandlist();
+            // var_dump($arr);die;
+            $goodsinfo = [];
+            foreach($arr as $k=>$v){
+                // var_dump($v['goods_name']);
+                // $goodsinfo[] = $v['goods_name'];
+                if($Content == $v['goods_name'])
+                {
+                    $res = DB::table('weixin_goods')->where(['goods_new'=>1,'goods_name'=>$v['goods_name']])->first();
+                }
+             }
+            //  var_dump($res);die;
+            if(!empty($res)){
+                $title = '商品';
+                // $title = '';
+                $goods_name = $res->goods_name;
+                $img = 'https://1809zhushimao.comcto.com/uploads/goodsimg/'.$res->goods_img;
+                $url = 'https://1809zhushimao.comcto.com/goodsinfo??g_id='.$res->goods_id;
+                echo '<xml>
+                <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                <FromUserName><![CDATA['.$wx_id.']]></FromUserName>
+                <CreateTime>'.time().'</CreateTime>
+                <MsgType><![CDATA[news]]></MsgType>
+                <ArticleCount>1</ArticleCount>
+                <Articles>
+                <item>
+                    <Title><![CDATA['.$title.']]></Title>
+                    <Description><![CDATA['.$goods_name.']]></Description>
+                    <PicUrl><![CDATA['.$img.']]></PicUrl>
+                    <Url><![CDATA['.$url.']]></Url>
+                </item>
+                </Articles>
+            </xml>';
+            }else{
+                 $title = '最新商品';
+                $goods_name = '无敌小吹风';
+                $img = 'https://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg';
+                $url = 'https://1809zhushimao.comcto.com/goodsinfo';
+                echo '<xml>
+                <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                <FromUserName><![CDATA['.$wx_id.']]></FromUserName>
+                <CreateTime>'.time().'</CreateTime>
+                <MsgType><![CDATA[news]]></MsgType>
+                <ArticleCount>1</ArticleCount>
+                <Articles>
+                <item>
+                    <Title><![CDATA['.$title.']]></Title>
+                    <Description><![CDATA['.$goods_name.']]></Description>
+                    <PicUrl><![CDATA['.$img.']]></PicUrl>
+                    <Url><![CDATA['.$url.']]></Url>
+                </item>
+                </Articles>
+            </xml>';
+            } 
             $date = [
                 'openid'=>$openid,
                 'text'=> $Content,
@@ -65,11 +118,11 @@ class GoodsController extends Controller
 
             if($Content =="最新商品"){
                 $arr = $this->brandlist();
-                // var_dump($arr[]);die;
+               
                 // var_dump($arr['goods_img']);die;
                 $title = '最新商品';
                 // $title = '';
-                $goods_name = $arr['goods_name'];
+                $goods_name = '无敌小吹风';
                 $img = 'https://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg';
                 $url = 'https://1809zhushimao.comcto.com/goodsinfo';
                 echo '<xml>
@@ -88,6 +141,7 @@ class GoodsController extends Controller
                 </Articles>
               </xml>';
             
+                
             }
         }else if($MsgType == 'image'){
             $wx_images_path =  $this->images($MediaId);
@@ -132,7 +186,7 @@ class GoodsController extends Controller
                 // var_dump($arr['goods_img']);die;
                 $title = '欢迎回来';
                 // $title = '';
-                $goods_name = $img['goods_name'];
+                $goods_name = '帅大大';
                 $imgs = 'https://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg';
                 $curl = 'https://1809zhushimao.comcto.com/goodsinfo';
                 echo '<xml>
@@ -171,7 +225,7 @@ class GoodsController extends Controller
                 // var_dump($arr['goods_img']);die;
                 $title = '欢迎关注';
                 // $title = '';
-                $goods_name = $img['goods_name'];
+                $goods_name = '帅大大';
                 $imgs = 'https://1809zhushimao.comcto.com/uploads/goodsimg/20190220/4f6e53dccdab7001b7a18359cedf8859.jpg';
                 $curl = 'https://1809zhushimao.comcto.com/goodsinfo';
                 echo '<xml>
