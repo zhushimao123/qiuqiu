@@ -286,7 +286,7 @@ class GoodsController extends Controller
     public function code()
     {
       
-        // echo '<pre>';print_r($_GET);echo '</pre>';
+        echo '<pre>';print_r($_GET);echo '</pre>';die;
         //2 通过code换取网页授权access_token
         $code = $_GET['code'];
         /**
