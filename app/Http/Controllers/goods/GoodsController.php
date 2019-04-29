@@ -312,9 +312,13 @@ class GoodsController extends Controller
         if($reult){
             if($user_info['openid'] == $reult->openid){
                 echo  '欢迎'.$reult->nickname.'回来';
+                header('refresh:3;url=/goodsinfo?g_id=3');
+                exit('3秒后，自动跳转至商品详情');
             }
         }else{
             echo  '欢迎'.$user_info['nickname'].'登陆';
+            header('refresh:3;url=/goodsinfo?g_id=3');
+            exit('3秒后，自动跳转至商品详情');
              //入库
             $info = [
                 'openid'=> $user_info['openid'],
