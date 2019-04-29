@@ -63,3 +63,5 @@ Route::get('code', 'goods\GoodsController@code');      //微信网页授权回�
 //生成临时二维码
 Route::post('create', 'goods\GoodsController@create');  
 Route::get('getimg', 'goods\GoodsController@getimg'); 
+//微信菜单
+Route::post('creates', 'goods\GoodsController@creates'); 

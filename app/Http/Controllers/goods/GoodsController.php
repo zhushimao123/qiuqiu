@@ -421,4 +421,27 @@ class GoodsController extends Controller
         $info = json_decode($res,true);
         return $info;
     }
+    //创建微信自定菜单
+    public function creates()
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.token();
+        $post_arr = [
+            'button' =>[
+                [
+                    'type'=> 'view',
+                    'name'=> '最新福利',
+                    'url'=>"http://www.baidu.com"
+                ],
+            ]
+        ];
+        //格式JSON
+        $json = json_encode($post_arr,JSON_UNESCAPED_UNICODE);
+        $client = new Client();
+        //发送请求
+        $response = $client->request('POST',$url,[
+            'body' => $json
+        ]);
+        $res = $response->getBody();
+        echo $res;
+    }
 }
