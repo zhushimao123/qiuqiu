@@ -315,7 +315,6 @@ class GoodsController extends Controller
                 echo "用户已存在";
                 $users = Redis::hGetAll($keys);
                 var_dump($users);
-
                 // echo  '欢迎'.$reult->nickname.'回来';
                 // header('refresh:3;url=/goodsinfo?g_id=3');
                 // exit('3秒后，自动跳转至商品详情');
@@ -326,8 +325,7 @@ class GoodsController extends Controller
             $user = [
                 'time'=> time()
              ];
-            $res1 = Redis::hMset($keys,$user);
-            var_dump($res1);
+             Redis::hMset($keys,$user);
             
            
             // $key = time();
