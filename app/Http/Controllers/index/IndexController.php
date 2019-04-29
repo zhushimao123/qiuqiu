@@ -96,7 +96,7 @@ class IndexController extends Controller
         }else{
             $detail = [
                 'goods_id'=> $goods_id,
-                'goods_name'=> $res ->goods_name,
+                'goods_name'=> $res['goods_name'],
                 'goods_look'=> $arr['goods_look'] +1,
                 'uid'=>Auth::id(),
                 'look_time'=> time()
