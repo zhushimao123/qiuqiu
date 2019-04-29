@@ -431,7 +431,7 @@ class GoodsController extends Controller
                 [
                     'type'=> 'view',
                     'name'=> '最新福利',
-                    'url'=>"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48451c201710dbcd&redirect_uri=https%3A%2F%2F1809zhushimao.comcto.com%2Fcode&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+                    'url'=>"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48451c201710dbcd&redirect_uri=https://1809zhushimao.comcto.com/code&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
                 ],
             ]
         ];
