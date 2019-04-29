@@ -335,22 +335,11 @@ class GoodsController extends Controller
             // var_dump($info);
             $res = DB::table('wx_user')->insert($info);
         }
-        
         $key = 'l:wx_san';
         $v = time();
         Redis::lpush($key,$v);
         $redis =  Redis::lrange($key,0,-1); 
         echo '<pre>';print_r($redis);echo '</pre>';
-        if($user_info['openid'] == $reult->openid){
-            $redis =  Redis::lrange($key,0,-1); 
-             echo '<pre>';print_r($redis);echo '</pre>';
-        }else{
-            $keys = 'l:wx';
-            $v = time();
-            Redis::lpush($keys,$v);
-            $redis =  Redis::lrange($keys,0,-1); 
-            echo '<pre>';print_r($redis);echo '</pre>';
-        }
     }
     //下载图片
     public function images($MediaId)
