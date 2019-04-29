@@ -314,10 +314,7 @@ class GoodsController extends Controller
             if($user_info['openid'] == $reult->openid){
                 // echo "用户已存在";
                 echo  '欢迎'.$reult->nickname.'回来';
-                $keys = 'l:wx_san';
-                $v = time();
-                Redis::lpush($keys,$v);
-               $redis =  Redis::lrange($keys,0,-1); 
+               $redis =  Redis::lrange($key,0,-1); 
                 echo '<pre>';print_r($redis);echo '</pre>';
                 // header('refresh:3;url=/goodsinfo?g_id=3');
                 // exit('3秒后，自动跳转至商品详情');
@@ -329,7 +326,7 @@ class GoodsController extends Controller
             $key = 'l:wx_san';
             $v = time();
             Redis::lpush($key,$v);
-           $redis =  Redis::lrange($key,0,-1); 
+            $redis =  Redis::lrange($key,0,-1); 
             echo '<pre>';print_r($redis);echo '</pre>';
              //入库
             $info = [
