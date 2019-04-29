@@ -327,8 +327,8 @@ class GoodsController extends Controller
                 'openid'=> $user_info['openid'],
                 'time'=> time()
              ];
-            $res1 = Redis::hMset($keys,$user);
-            var_dump($res1);
+            // $res1 = Redis::hMset($keys,$user);
+            var_dump($user);
             
            
             // $key = time();
