@@ -312,7 +312,7 @@ class GoodsController extends Controller
         $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first();
         if($reult){
             if($user_info['openid'] == $reult->openid){
-                echo "用户已存在";
+                // echo "用户已存在";
                 echo  '欢迎'.$reult->nickname.'回来';
                 $keys = 'l:wx_san';
                 $v = time();
