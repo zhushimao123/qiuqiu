@@ -54,24 +54,26 @@ class GoodsController extends Controller
         $eventkey = $data -> EventKey;
         // echo $MediaId;
         if($MsgType == 'text'){
-            $arr = $this->brandlist();
-            // var_dump($arr);die;
-            $goodsinfo = [];
-            foreach($arr as $k=>$v){
-                // var_dump($v['goods_name']);
-                // $goodsinfo[] = $v['goods_name'];
-                if($Content == $v['goods_name'])
-                {
-                    $res = DB::table('weixin_goods')->where(['goods_new'=>1,'goods_name'=>$v['goods_name']])->first();
-                }
-             }
+            // $arr = $this->brandlist();
+            // // var_dump($arr);die;
+            // $goodsinfo = [];
+            // foreach($arr as $k=>$v){
+            //     // var_dump($v['goods_name']);
+            //     // $goodsinfo[] = $v['goods_name'];
+            //     if($Content == $v['goods_name'])
+            //     {
+            //         $res = DB::table('weixin_goods')->where(['goods_new'=>1,'goods_name'=>$v['goods_name']])->first();
+            //     }
+            //  }
             //  var_dump($res);die;
+            $where[] = ['goods_name','like',"%$Content%"];
+            $res = DB::table('weixin_goods')->where($where)->first();
             if(!empty($res)){
                 $title = '商品';
                 // $title = '';
                 $goods_name = $res->goods_name;
                 $img = 'https://1809zhushimao.comcto.com/uploads/goodsimg/'.$res->goods_img;
-                $url = 'https://1809zhushimao.comcto.com/goodsdetail?g_id='.$res->goods_id;
+                $url = 'https://1809zhushimao.comcto.com/goodsinfo?g_id='.$res->goods_id;
                 echo '<xml>
                 <ToUserName><![CDATA['.$openid.']]></ToUserName>
                 <FromUserName><![CDATA['.$wx_id.']]></FromUserName>
