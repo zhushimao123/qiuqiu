@@ -321,11 +321,11 @@ class GoodsController extends Controller
             echo  '欢迎'.$user_info['nickname'].'登陆';
             // header('refresh:3;url=/goodsinfo?g_id=3');
             // exit('3秒后，自动跳转至商品详情');
-            $key = $user_info['openid'];
-            $redis_view_keys = 'ss:goods:view'; //浏览排名
-            $history = Redis::incr($key); //商品浏览次数
-           $res1 =  Redis::zAdd($redis_view_keys,$history,1); 
-           var_dump($res1);
+            $key = 'l:wx_san';
+            $v = time();
+            Redis::lpush($key,$v);
+           $redis =  Redis::lrange($key,0,-1); 
+            echo '<pre>';print_r($redis);echo '</pre>';
              //入库
             $info = [
                 'openid'=> $user_info['openid'],
