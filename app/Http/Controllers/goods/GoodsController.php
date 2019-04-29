@@ -310,32 +310,22 @@ class GoodsController extends Controller
         $user_info = json_decode(file_get_contents($url2),true);
         // echo '<pre>';print_r($user_info);echo '</pre>';die;
         $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first();
-
-        $keys = 'qiuqiu'.$user_info['openid'];
-        $user = [
-            'time'=> time(),
-            'openid'=> $user_info['openid']
-         ];
-         Redis::hMset($keys,$user);
-         $users = Redis::hGetAll($keys);
-         var_dump($users);
-        
         if($reult){
             if($user_info['openid'] == $reult->openid){
                 echo "用户已存在";
-               
                 // echo  '欢迎'.$reult->nickname.'回来';
                 // header('refresh:3;url=/goodsinfo?g_id=3');
                 // exit('3秒后，自动跳转至商品详情');
             }
         }else{
             echo  '欢迎'.$user_info['nickname'].'登陆';
-         
-           
-            // $key = time();
-            // Redis::zAdd($redis_view_keys,$history,$goods_id);
             // header('refresh:3;url=/goodsinfo?g_id=3');
             // exit('3秒后，自动跳转至商品详情');
+            $key = $user_info['openid'];
+            $redis_view_keys = 'ss:goods:view'; //浏览排名
+            $history = Redis::incr($key); //商品浏览次数
+           $res1 =  Redis::zAdd($redis_view_keys,$history,$goods_id); 
+           var_dump($res1);
              //入库
             $info = [
                 'openid'=> $user_info['openid'],
