@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redis;
 class GoodsController extends Controller
 {
     public function brandlist()
@@ -311,14 +312,27 @@ class GoodsController extends Controller
         $reult = DB::table('wx_user')->where(['openid'=>$user_info['openid']])->first();
         if($reult){
             if($user_info['openid'] == $reult->openid){
-                echo  '欢迎'.$reult->nickname.'回来';
-                header('refresh:3;url=/goodsinfo?g_id=3');
-                exit('3秒后，自动跳转至商品详情');
+                echo "用户已存在".'\n';
+                $users = Redis::hGetAll($keys);
+                var_dump($users);
+
+                // echo  '欢迎'.$reult->nickname.'回来';
+                // header('refresh:3;url=/goodsinfo?g_id=3');
+                // exit('3秒后，自动跳转至商品详情');
             }
         }else{
             echo  '欢迎'.$user_info['nickname'].'登陆';
-            header('refresh:3;url=/goodsinfo?g_id=3');
-            exit('3秒后，自动跳转至商品详情');
+            $keys = 'qiuqiu';
+            $user = [
+                'openid'=> $user_info['openid'],
+                'time'=> time()
+             ];
+            Redis::hMset($keys,$user);
+           
+            // $key = time();
+            // Redis::zAdd($redis_view_keys,$history,$goods_id);
+            // header('refresh:3;url=/goodsinfo?g_id=3');
+            // exit('3秒后，自动跳转至商品详情');
              //入库
             $info = [
                 'openid'=> $user_info['openid'],
@@ -437,6 +451,11 @@ class GoodsController extends Controller
                     'name'=> '最新福利',
                     'url'=>"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48451c201710dbcd&redirect_uri=http://1809zhushimao.comcto.com/code&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
                 ],
+                [
+                    'type'=> 'view',
+                    'name'=> '签到',
+                    'url'=>"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48451c201710dbcd&redirect_uri=http://1809zhushimao.comcto.com/code&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+                ]
             ]
         ];
         //格式JSON
