@@ -431,11 +431,11 @@ class GoodsController extends Controller
                 [
                     'type'=> 'view',
                     'name'=> '最新福利',
-                    'url'=>"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48451c201710dbcd&redirect_uri=http://www.baodu.com&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+                    'url'=>"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx88877ae88c12e2a2&redirect_uri=http://1809lvmingjin.comcto.com/scope&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
                 ],
             ]
         ];
-        //格式JSON https%3A%2F%2F1809zhushimao.comcto.com%2Fcode
+        //格式JSON    https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48451c201710dbcd&redirect_uri=https%3A%2F%2F1809zhushimao.comcto.com%2Fcode&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
         $json = json_encode($post_arr,JSON_UNESCAPED_UNICODE);
         $client = new Client();
         //发送请求
