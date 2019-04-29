@@ -86,7 +86,8 @@ class GoodsController extends Controller
         $grid->goods_price('商品价格');
         $grid->goods_num('库存');
         $grid->is_show('是否上架');
-        // $grid->buy_number('Buy number');
+        $grid->file_path('图片')->image();
+        
 
         return $grid;
     }
@@ -125,7 +126,8 @@ class GoodsController extends Controller
         $form->decimal('goods_price', 'Goods price');
         $form->number('goods_num', 'Goods num')->default(100);
         $form->number('is_show', 'Is show')->default(1);
-        $form->number('buy_number', 'Buy number')->default(1);
+        // $form->number('buy_number', 'Buy number')->default(1);
+        $form-> file('file_path','File path');
 
         return $form;
     }
