@@ -322,13 +322,12 @@ class GoodsController extends Controller
             }
         }else{
             echo  '欢迎'.$user_info['nickname'].'登陆';
-            $keys = 'qiuqiu';
+            $keys = 'qiuqiu'.$user_info['openid'];
             $user = [
-                'openid'=> $user_info['openid'],
                 'time'=> time()
              ];
-            // $res1 = Redis::hMset($keys,$user);
-            var_dump($user);
+            $res1 = Redis::hMset($keys,$user);
+            var_dump($res1);
             
            
             // $key = time();
