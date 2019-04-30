@@ -71,3 +71,9 @@ Route::get('index', 'kaoshi\GoodsController@index');
 Route::post('index', 'kaoshi\KaoshiController@wxEven');
 
 Route::get('code', 'kaoshi\KaoshiController@code');      //微信网页授权回调
+//获取access——token数据
+Route::get('token', 'kaoshi\KaoshiController@token');
+//创建用户标签
+Route::post('tags', 'kaoshi\KaoshiController@tags');
+
+

@@ -75,4 +75,44 @@ class KaoshiController extends Controller
         }
 
     }
+    //获取access_token 
+    public function token()
+    {
+       $key = "access_token";
+       $access_token = Redis::get($key);
+       if($access_token){
+           return $access_token;
+       }else{
+           $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx48451c201710dbcd&secret=f583f90f3aed8ec33ae6dd30eceebe5f'; 
+           $json_data = json_decode(file_get_contents($url),true);
+           // var_dump($json_data);   
+           if(isset($json_data['access_token'])){
+               Redis::set($key,$json_data['access_token']);
+               Redis::expire($key,3600);
+               return $json_data['access_token'];
+           }else{
+               return false;
+           }
+       }
+    }
+    //创建用户标签
+    public function tags()
+    {
+       $url = 'https://api.weixin.qq.com/cgi-bin/tags/create?access_token='.token();
+        // {   "tag" : {     "name" : "广东"//标签名   } } 数据格式
+        $post_arr = [
+            'tag' =>[
+                'name'=> "北京"
+            ]
+        ];
+        //格式JSON
+        $json = json_encode($post_arr,JSON_UNESCAPED_UNICODE);
+        $client = new Client();
+        //发送请求
+        $response = $client->request('POST',$url,[
+            'body' => $json
+        ]);
+        $res = $response->getBody();
+        echo $res;
+    }
 }
