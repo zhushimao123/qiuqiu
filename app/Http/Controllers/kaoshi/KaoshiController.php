@@ -35,9 +35,9 @@ class KaoshiController extends Controller
     public function code()
     {
         /**
-         * https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48451c201710dbcd&redirect_uri=https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48451c201710dbcd&redirect_uri=http://1809zhushimao.comcto.com/code&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+         * https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx48451c201710dbcd&redirect_uri=http://1809zhushimao.comcto.com/code&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
          */
-        echo '<pre>';print_r($_GET);echo '</pre>';die;
+        // echo '<pre>';print_r($_GET);echo '</pre>';die;
         //2 通过code换取网页授权access_token
         $code = $_GET['code'];
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx48451c201710dbcd&secret=f583f90f3aed8ec33ae6dd30eceebe5f&code='.$code.'&grant_type=authorization_code';
