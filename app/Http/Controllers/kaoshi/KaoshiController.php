@@ -4,7 +4,10 @@ namespace App\Http\Controllers\kaoshi;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redis;
 class KaoshiController extends Controller
 {
     //微信配置信息第一次get请求
