@@ -102,7 +102,7 @@ class KaoshiController extends Controller
         // {   "tag" : {     "name" : "广东"//标签名   } } 数据格式
         $post_arr = [
             'tag' =>[
-                'name'=> "北京"
+                'name'=> "北京2"
             ]
         ];
         //格式JSON
@@ -115,4 +115,119 @@ class KaoshiController extends Controller
         $res = $response->getBody();
         echo $res;
     }
+    //将指定用户添加到标签
+    public function members()
+    {
+        $url  ='https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token='.token();
+            // $post_arr = [
+            //     'openid_list' =>[
+            //        "oafqt5gB1TnlWA0dxKpvy9DdP8jQ",
+            //        "oafqt5owvCDO5iok6z7QKMh5fm1Q"  ],
+            //        "tagid" => 134
+            // ];
+           $post_arr = '{  
+                "openid_list" : [   
+                "oafqt5tccgLDT5LMnqxBQH6kSwE4",    
+                "oafqt5owvCDO5iok6z7QKMh5fm1Q"   ],   
+                "tagid" : 100
+             }';
+              //格式JSON
+        // $json = json_encode($post_arr,JSON_UNESCAPED_UNICODE);
+        $client = new Client();
+        //发送请求
+        $response = $client->request('POST',$url,[
+            'body' => $post_arr
+        ]);
+        $res = $response->getBody();
+        echo $res;
+    }
+    //获取标签下大的粉丝数
+    //{   "tagid" : 134,   "next_openid":""//第一个拉取的OPENID，不填默认从头开始拉取 }
+    //接口get https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token=ACCESS_TOKEN
+   public function user()
+   {
+       $url = 'https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token='.token();
+       $post_arr ='{  
+        "tagid" : 100,
+        "next_openid":""
+         }';
+         $client = new Client();
+        //发送请求
+        $response = $client->request('POST',$url,[
+            'body' => $post_arr
+        ]);
+        $res = $response->getBody();
+        // echo $res;
+        $json = json_decode($res,true);
+        // var_dump($res);die;
+        $data = [];
+        foreach($json as $k=> $v){
+            // var_dump($k);
+           $data [] = $v;
+        }
+        // var_dump($data);
+        $openid1 = $data[1]['openid'][0];
+        $openid2 = $data[1]['openid'][1];
+        $openid3 = $data[1]['openid'][2];
+        //获取标签
+        //  $url2 = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='.token(); 
+        //  $res=   file_get_contents($url);
+        //  var_dump($res);die;
+    
+        return view('weixin.open',['openid1'=>$openid1,'openid2'=>$openid2,'openid3'=> $openid3]);
+   }
+   //消息群发
+   public function contents()
+   {
+        if(empty($_GET['name'])){
+
+        }else{
+            $key = "name";
+            $name = Redis::get($key);
+            if($name){
+                
+            }else{
+                $name = $_GET['name'];
+                if($name){
+                    Redis::set($key,$name);
+                    return $name;
+                }else{
+                    return false;
+                }
+            }
+
+           
+            $openid = $_GET['openid'];
+            // var_dump($openid);die;
+            $open_id = explode(',',$openid);
+            // var_dump($opd);
+            $result = $this-> sendText($open_id,$name);
+        }
+   }
+    //处理
+    public function sendText($open_id,$name)
+    {
+          //接口
+       $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token='.token();
+       $text = [
+           'touser'=> $open_id,
+           'msgtype'=> 'text',
+           'text'=> [
+               'content'=> $name
+           ]
+       ];
+       $json = json_encode($text,JSON_UNESCAPED_UNICODE);//处理中文
+    //    var_dump($json);die;
+       //发送请求
+       $client = new Client();
+
+       $response = $client->request('POST',$url,[
+           'body' => $json
+       ]);
+     
+       //处理响应
+       echo  $response->getBody();
+    }
+
+
 }

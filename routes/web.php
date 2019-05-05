@@ -48,9 +48,9 @@ Route::post('getimg', 'weixin\test@getimg');
 //商品消息
 Route::get('brandlist', 'goods\GoodsController@brandlist');  
 //第一从get请求
-// Route::get('index', 'goods\GoodsController@index');
+Route::get('index', 'goods\GoodsController@index');
 //接受微信服务器推送
-// Route::post('index', 'goods\GoodsController@wxEven');
+Route::post('index', 'goods\GoodsController@wxEven');
 //商品详情
 Route::get('goodsinfo', 'goods\GoodsController@goodsinfo');
 //删除过期的订单
@@ -59,21 +59,29 @@ Route::get('orderdel', 'order\OrderController@orderdel');\
 Route::get('urlencode', function () {
     echo urlencode($_GET['url']);
 });
-// Route::get('code', 'goods\GoodsController@code');      //微信网页授权回调
+Route::get('code', 'goods\GoodsController@code');      //微信网页授权回调
 //生成临时二维码
 Route::post('create', 'goods\GoodsController@create');  
 Route::get('getimg', 'goods\GoodsController@getimg'); 
 //微信菜单
 Route::post('creates', 'goods\GoodsController@creates'); 
-//第一从get请求
-Route::get('index', 'kaoshi\GoodsController@index');
-//接受微信服务器推送
-Route::post('index', 'kaoshi\KaoshiController@wxEven');
+// //第一从get请求
+// Route::get('index', 'kaoshi\GoodsController@index');
+// //接受微信服务器推送
+// Route::post('index', 'kaoshi\KaoshiController@wxEven');
 
-Route::get('code', 'kaoshi\KaoshiController@code');      //微信网页授权回调
-//获取access——token数据
-Route::get('token', 'kaoshi\KaoshiController@token');
-//创建用户标签
-Route::post('tags', 'kaoshi\KaoshiController@tags');
+// Route::get('code', 'kaoshi\KaoshiController@code');      //微信网页授权回调
+// //获取access——token数据
+// Route::get('token', 'kaoshi\KaoshiController@token');
+// //创建用户标签
+// Route::post('tags', 'kaoshi\KaoshiController@tags');
+// //将指定用户添加至标签
+// Route::post('members', 'kaoshi\KaoshiController@members');
+// //获取
+// Route::get('user', 'kaoshi\KaoshiController@user');
+
+// Route::any('contents', 'kaoshi\KaoshiController@contents');
+
+
 
 
